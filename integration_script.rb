@@ -7,14 +7,15 @@ LOGGER = Logger.new($stdout)
 LOGGER.level = Logger::INFO
 
 BROWSER_OPTIONS = {
-  headless: false,
+  headless: true,
   options: {
     prefs: {
       download: {
         prompt_for_download: false,
         default_directory: "#{Dir.pwd}/data"
       }
-    }
+    },
+    args: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-dev-shm-usage', '--window-size=1920,1080'] 
   }
 }.freeze
 
@@ -230,4 +231,4 @@ def print_latest_run_details
   end
 end
 
-run_report_on_existing_integration
+run_integration_and_report
