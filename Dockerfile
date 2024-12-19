@@ -16,4 +16,4 @@ RUN bundle install --jobs 4 --retry 3
 
 COPY . .
 
-CMD ["ruby", "integration_script.rb"]
+CMD ["ruby", "app/main.rb"]
