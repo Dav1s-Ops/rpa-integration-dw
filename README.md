@@ -9,13 +9,16 @@ The Integration Runner is a Ruby-based application that automates browser intera
 
 [Integration Runner (RPA)](#integration-runner-rpa)
    - [Overview](#overview)
+
 [Setup and Usage](#setup-and-usage)
    - [Prerequisites](#prerequisites)
      - [Recommended](#recommended)
      - [Local](#local)
    - [Running Locally (Without Docker)](#running-locally-without-docker)
    - [Running with Docker (Recommended w/ Docker)](#running-with-docker-recommended-w-docker)
+
 [Output and Logs](#output-and-logs)
+
 [File Structure and Descriptions](#file-structure-and-descriptions)
    - [1. `app/integration_runner.rb`](#1-appintegration_runnerrb)
    - [2. `app/main.rb`](#2-appmainrb)
@@ -23,6 +26,7 @@ The Integration Runner is a Ruby-based application that automates browser intera
    - [4. `docker-compose.yml`](#4-docker-composeyml)
    - [5. `run_rpa.sh`](#5-run_rpash)
    - [6. `run_history.csv`](#6-run_historycsv)
+
 [What's Next?!](#whats-next)
    - [Security Considerations](#security-considerations)
    - [Further Customizable Settings](#further-customizable-settings)
