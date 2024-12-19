@@ -18,7 +18,7 @@ class IntegrationRunner
     }
   }.freeze
 
-  BADGE_IDS = %w[createdBadge updatedBadge deletedBadge erroredBadge warningBadge].freeze
+  BADGE_IDS = %w[deletedBadge erroredBadge warningBadge].freeze
 
   def initialize(logger: Logger.new($stdout), base_url: 'https://demo-dimension.calance.us')
     @logger = logger
