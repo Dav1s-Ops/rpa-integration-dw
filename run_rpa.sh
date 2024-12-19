@@ -16,12 +16,14 @@ cleanup() {
 }
 
 # Handle SIGINT (CTRL+C) gracefully
-trap "echo -e '\n\033[1;34m[INFO]\033[0m Gracefully exiting... (•‿•)'; cleanup; exit 0" INT
+trap "echo -e '\n\033[1;34m[INFO]\033[0m Gracefully exiting...'; cleanup; exit 0" INT
 trap cleanup EXIT
 
-# Building and running the Docker Compose services
-echo -e "\033[1;32m[STEP 1/2]\033[0m Building and running Docker Compose services..."
-docker compose up --build --remove-orphans
+echo -e "\033[1;32m[STEP 1/2]\033[0m Building Docker images..."
+docker compose build
+
+echo -e "\033[1;32m[STEP 2/2]\033[0m Running RPA with arguments: $*"
+docker compose run --rm rpa ruby app/main.rb "$@"
 
 # Post-run message
-echo -e "\033[1;32m[STEP 2/2]\033[0m Docker Compose services stopped!"
+echo -e "\033[1;32m[INFO]\033[0m Done!"
