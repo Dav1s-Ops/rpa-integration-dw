@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Integration Runner is a Ruby-based application that automates browser interactions using `Watir`. It is designed to run integrations, process data, and generate reports. This application utilizes the `Chromium` headless browser for efficiency and `CSV` files for output data storage. The program is containerized using Docker, making it portable and easy to deploy.
+The Integration Runner is a Ruby-based application that automates browser interactions using `Watir`. It is designed to run integrations, process data, and generate reports. This application utilizes the `Selenium` headless browser for efficiency and `CSV` files for output data storage. The program is containerized using Docker, making it portable and easy to deploy.
 
 ## Setup and Usage
 
@@ -13,7 +13,6 @@ The Integration Runner is a Ruby-based application that automates browser intera
 
 ##### Local 
 - **[Ruby](https://www.ruby-lang.org/en/documentation/installation/):** Version 3.2 or higher. I recommend [rbenv](https://github.com/rbenv/rbenv#readme) for version management.
-- **[Chromium](https://www.chromium.org/chromium-projects/):** Install handled by Docker image or `Watir`.
 
 ### Running Locally (Without Docker)
 
