@@ -24,6 +24,7 @@ class IntegrationRunner
     @logger = logger
     @logger.level = Logger::INFO
     @base_url = base_url
+    @logged_actions = Set.new
   end
 
   def run_integration_and_report
@@ -117,20 +118,58 @@ class IntegrationRunner
   end
 
   def handle_post_run_actions(browser, run_id)
+    log_info("[INFO] Setting page size to 250...")
+    set_page_size(browser, 250)
+    
     log_info("[INFO] Waiting for the Run Details status to update to 'Errored' or 'Complete'...")
     status_header = browser.h3(class: 'RunDetails_statusHeader__GhXHG')
-    browser.wait_until(timeout: 300) do
+    
+    start_time = Time.now
+    loop do
+      break if Time.now - start_time > 300
       status_text = status_header.text
-      status_text.include?('Errored') || status_text.include?('Complete')
+      log_table_data(browser)
+      
+      if status_text.include?('Errored') || status_text.include?('Complete')
+        log_info("[INFO] Run status confirmed: #{status_text}")
+        break
+      end
+      
+      sleep 1
     end
-
-    log_info("[INFO] Run status confirmed. Performing post-run actions...")
-
+    
     total_actions = extract_total_actions(browser)
     toggle_filters(browser)
     export_and_process_csv(browser, run_id, status_header.text, total_actions)
     print_latest_run_details
   end
+  
+
+  def set_page_size(browser, size)
+    log_info("[INFO] Setting table page size to #{size}...")
+    page_size_select = browser.select(xpath: "//select[contains(@style, 'width: 50px')]")
+    page_size_select.select(size.to_s)
+    browser.wait_until { browser.table(id: 'reactTable').exists? }
+    log_info("[INFO] Page size set to #{size}.")
+  end
+  
+  
+  def log_table_data(browser)
+    table_rows = browser.table(id: 'reactTable').tbody.trs
+    table_rows.each do |row|
+      time = row.td(index: 0).text
+      type = row.td(index: 1).text
+      description = row.td(index: 2).text
+  
+      action_key = "#{time}-#{description}"
+  
+      unless @logged_actions.include?(action_key)
+        @logged_actions.add(action_key)
+        log_info("[ACTION] Type: #{type}, Description: #{description}")
+      end
+    end
+  end
+  
 
   def extract_total_actions(browser)
     pagination_info = browser.div(text: /Showing items/).text
@@ -144,10 +183,12 @@ class IntegrationRunner
       filter = browser.span(id: badge_id)
       if filter.present?
         filter.click
-        log_info("[INFO] Toggled filter: #{badge_id}")
+        formatted_name = badge_id.gsub(/Badge$/, '').capitalize
+        log_info("[INFO] Toggled filter: #{formatted_name}")
       end
     end
   end
+  
 
   def export_and_process_csv(browser, run_id, status, total_actions)
     log_info("[INFO] Exporting CSV data...")
