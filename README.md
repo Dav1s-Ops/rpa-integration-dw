@@ -5,6 +5,27 @@
 The Integration Runner is a Ruby-based application that automates browser interactions using `Watir`. It is designed to run integrations, process data, and generate reports. This application utilizes the `Chromium` headless browser for efficiency and `CSV` files for output data storage. The program is containerized using Docker, making it portable and easy to deploy.
 
 ---
+### Table of Contents
+
+[Integration Runner (RPA)](#integration-runner-rpa)
+   - [Overview](#overview)
+[Setup and Usage](#setup-and-usage)
+   - [Prerequisites](#prerequisites)
+     - [Recommended](#recommended)
+     - [Local](#local)
+   - [Running Locally (Without Docker)](#running-locally-without-docker)
+   - [Running with Docker (Recommended w/ Docker)](#running-with-docker-recommended-w-docker)
+[Output and Logs](#output-and-logs)
+[File Structure and Descriptions](#file-structure-and-descriptions)
+   - [1. `app/integration_runner.rb`](#1-appintegration_runnerrb)
+   - [2. `app/main.rb`](#2-appmainrb)
+   - [3. `Dockerfile`](#3-dockerfile)
+   - [4. `docker-compose.yml`](#4-docker-composeyml)
+   - [5. `run_rpa.sh`](#5-run_rpash)
+   - [6. `run_history.csv`](#6-run_historycsv)
+[What's Next?!](#whats-next)
+   - [Security Considerations](#security-considerations)
+   - [Further Customizable Settings](#further-customizable-settings)
 
 ## Setup and Usage
 
