@@ -3,6 +3,7 @@ require 'securerandom'
 require 'csv'
 require 'logger'
 require 'json'
+require 'webdrivers'
 
 class IntegrationRunner
   BROWSER_OPTIONS = {
