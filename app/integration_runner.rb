@@ -193,19 +193,42 @@ class IntegrationRunner
 
   def export_and_process_csv(browser, run_id, status, total_actions)
     log_info("[INFO] Exporting CSV data...")
+    
     export_button = browser.button(class: /ExportCsv_exportBtn__2UjzH/)
-    export_button.click if export_button.present?
-    sleep 5
+    if export_button.present?
+      export_button.click
+      log_info("[INFO] Export button clicked.")
+    else
+      log_info("[ERROR] Export button not found. Cannot proceed with CSV export.")
+      return
+    end
 
     csv_file_path = File.join(Dir.pwd, 'data', 'data.csv')
+    log_info("[INFO] Waiting for CSV file to be downloaded at #{csv_file_path}...")
+    
+    wait_time = 10
+    start_time = Time.now
+    until File.exist?(csv_file_path) || (Time.now - start_time) > wait_time
+      sleep 1
+    end
+
+    unless File.exist?(csv_file_path)
+      log_info("[ERROR] CSV file not found at #{csv_file_path}. Export may have failed.")
+      return
+    end
+
+    log_info("[INFO] CSV file downloaded successfully. Proceeding with processing...")
+
     begin
-      log_info("[INFO] Processing exported CSV data...")
       extracted_data = extract_data_from_csv(csv_file_path)
       write_run_details_to_csv(run_id, status, total_actions, extracted_data, Time.now.utc.iso8601)
+    rescue Errno::ENOENT
+      log_info("[ERROR] Failed to open or process CSV file at #{csv_file_path}.")
     ensure
       delete_temp_csv(csv_file_path)
     end
   end
+  
 
   def extract_data_from_csv(file)
     things = []
