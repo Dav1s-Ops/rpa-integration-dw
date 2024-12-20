@@ -12,7 +12,7 @@ class IntegrationRunner
       prefs: {
         download: {
           prompt_for_download: false,
-          default_directory: "#{Dir.pwd}/data"
+          default_directory: File.join(Dir.pwd, 'data')
         }
       },
       args: ['--headless', '--disable-gpu', '--no-sandbox', '--disable-dev-shm-usage', '--window-size=1920,1080']
@@ -197,7 +197,7 @@ class IntegrationRunner
     export_button.click if export_button.present?
     sleep 5
 
-    csv_file_path = "#{Dir.pwd}/data/data.csv"
+    csv_file_path = File.join(Dir.pwd, 'data', 'data.csv')
     begin
       log_info("[INFO] Processing exported CSV data...")
       extracted_data = extract_data_from_csv(csv_file_path)
